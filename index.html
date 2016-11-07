@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reddit With Vue.js</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <subreddit name="aww"></subreddit>
+    <subreddit name="space"></subreddit>
+    <subreddit name="gifs"></subreddit>
+    <subreddit name="food"></subreddit>
+    <subreddit name="comics"></subreddit>
+    <subreddit name="sports"></subreddit>
+  </div>
+  
+  <template id="subreddit">
+    <div class="subreddit">
+      <h2>{{ name | uppercase }}</h2>
+      <ul class="item-list">
+        <li v-for="obj in posts">
+          <post :item="obj"></post>
+          <!--
+            The colon prefixing :item="obj" is very important. 
+            It tells Vue that we are proving a JavaScript object called obj (as opposed to the string "obj"), 
+            allowing us to pass the data from the v-for.
+          -->
+        </li>
+      </ul>
+    </div>
+  </template>
+  
+  <template id="post">
+    <div class="post">
+      <a :href="item.data.url" :style="item.data.thumbnail | setAsBackground" target="_blank" class="thumbnail"></a>
+      <div class="details">
+        <a :href="item.data.url" :title="item.data.title" target="_blank" class="title">
+          {{ item.data.title | truncate }}          
+        </a>
+        
+        <div class="action-buttons">
+          <a href="http://reddit.com{{ item.data.permalink }}" title="Vote">
+            <i class="material-icons">thumbs_up_down</i>
+            {{ item.data.score }}
+          </a>
+          
+          <a href="http://reddit.com{{ item.data.permalink }}" title="Go to discussion">
+            <i class="material-icons">forum</i>
+            {{ item.data.num_comments}}
+          </a>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <script src="assets/js/vue.js"></script>
+  <script src="assets/js/vue-resource.min.js"></script>
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
