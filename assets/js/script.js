@@ -12,7 +12,7 @@ var subreddit = Vue.component('subreddit',{
   created: function(){
     this.$http.get("https://www.reddit.com/r/" + this.name + "/top.json?limit=5")
     .then(function(response){
-      this.posts = response.data.data.children;
+      this.posts = response.data.children.data;
     });
   }
 
